@@ -1,11 +1,13 @@
 using namespace std;
+#define _USE_MATH_DEFINES
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <math.h>
 #include <complex>
 
-const double TAU = 6.28318530718;
+const double TAU = 2. * M_PI;
 const complex<double> IM_UNIT(0., 1.);
 const complex<double> I_TAU(0., TAU);
 
@@ -50,13 +52,22 @@ int main() {
         //array.emplace_back(complex<double>(float(i), float(fl_arr_len - i)));
     }
 
-    // print the input array to the terminal
+    /* print the input array to the terminal
     cout << "Initial array:\n";
     for (unsigned int i = 0; i < array.size(); i++) { 
         cout << "item " << i << ": " << array[i] << "\n"; 
     }
     cout << "Input array size: " << array.size() << ", and capacity: "
-         << array.capacity() << "\n";
+         << array.capacity() << "\n";*/
+
+    // print the input data to a file
+    ofstream input_file_out("fft_input.txt");
+
+    for (complex<double> item : array) {
+        input_file_out << item << "\n";
+    }
+
+    input_file_out.close();
 
     // Prepare for FFT with even/odd recursive sort
     vector<complex<double>> new_array = bit_reverse_sort(array, digits_len);
@@ -104,13 +115,13 @@ int main() {
          << new_array.capacity() << "\n";*/
 
     // print the output array to a file
-    ofstream file_out("cpp_fft_out.txt");
+    ofstream result_file_out("cpp_fft_out.txt");
 
     for (complex<double> item: new_array) {
-        file_out << item << "\n";
+        result_file_out << item << "\n";
     }
 
-    file_out.close();
+    result_file_out.close();
 
     return 0;
 }
